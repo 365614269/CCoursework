@@ -10,6 +10,47 @@
 #define COUNTBLOCKS 10
 
 
+void escapeVertical(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
+    int flag = 1;
+    int offset = 1;
+
+    while (flag) {
+        int LHS = aRobot->y - offset;
+        int RHS = aRobot->y + offset;
+
+        if (LHS >= 0 && !grid[LHS][aRobot->y + nowCase].blocked) {
+            moveRight(aRobot, offset, grid, initialX, initialY);
+            flag = 0;
+        } else if (RHS <= 9 && !grid[RHS][aRobot->y + nowCase].blocked) {
+            moveLeft(aRobot, offset, grid, initialX, initialY);
+            flag = 0;
+        }
+        
+        offset++;
+    }
+}
+
+void escapeHorizontal(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
+    int flag = 1;
+    int offset = 1;
+
+    while (flag) {
+        int LHS = aRobot->x - offset;
+        int RHS = aRobot->x + offset;
+
+        if (LHS >= 0 && !grid[LHS][aRobot->y + nowCase].blocked) {
+            moveRight(aRobot, offset, grid, initialX, initialY);
+            flag = 0;
+        } else if (RHS <= 9 && !grid[RHS][aRobot->y + nowCase].blocked) {
+            moveLeft(aRobot, offset, grid, initialX, initialY);
+            flag = 0;
+        }
+        
+        offset++;
+    }
+}
+
+
 void goToColumn(struct Robot* aRobot, int destY, struct Cell grid[SIZE][SIZE], int initialX, int initialY) {
     int nowCase;
     if (destY > aRobot->y) {
@@ -23,27 +64,11 @@ void goToColumn(struct Robot* aRobot, int destY, struct Cell grid[SIZE][SIZE], i
     }
 
     while (aRobot->y != destY) {
-        int offset = 1;
         if (canMoveForward(aRobot, grid)) {
             forward(aRobot);
             drawGrid(*aRobot, grid, initialX, initialY);
         } else {  // Get rid of the wall in the front.
-            int flag = 1;
-
-            while (flag) {
-                int LHS = aRobot->y - offset;
-                int RHS = aRobot->y + offset;
-
-                if (LHS >= 0 && !grid[LHS][aRobot->y + nowCase].blocked) {
-                    moveRight(aRobot, offset, grid, initialX, initialY);
-                    flag = 0;
-                } else if (RHS <= 9 && !grid[RHS][aRobot->y + nowCase].blocked) {
-                    moveLeft(aRobot, offset, grid, initialX, initialY);
-                    flag = 0;
-                }
-                
-                offset++;
-            }
+            escapeVertical(aRobot, grid, nowCase, initialX, initialY);
         }
     }
 }
@@ -66,22 +91,7 @@ void goToRow(struct Robot* aRobot, int destX, struct Cell grid[SIZE][SIZE], int 
             forward(aRobot);
             drawGrid(*aRobot, grid, initialX, initialY);
         } else {  // Get rid of the wall in the front.
-            int flag = 1;
-
-            while (flag) {
-                int LHS = aRobot->x - offset;
-                int RHS = aRobot->x + offset;
-
-                if (LHS >= 0 && !grid[LHS][aRobot->y + nowCase].blocked) {
-                    moveRight(aRobot, offset, grid, initialX, initialY);
-                    flag = 0;
-                } else if (RHS <= 9 && !grid[RHS][aRobot->y + nowCase].blocked) {
-                    moveLeft(aRobot, offset, grid, initialX, initialY);
-                    flag = 0;
-                }
-                
-                offset++;
-            }
+            escapeHorizontal(aRobot, grid, nowCase, initialX, initialY);
         }
     }
 }
