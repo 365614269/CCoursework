@@ -15,6 +15,39 @@ void fillYs(Triangle* triangle, int y0, int y1, int y2) {
     triangle->ys[2] = y2;
 }
 
+int absoluteY(Robot aRobot, int relative) {
+    return INITOFFSET + SIDELENGTH * aRobot.x + relative;
+}
+
+int absoluteX(Robot aRobot, int relative) {
+    return INITOFFSET + SIDELENGTH * aRobot.y + relative;
+}
+
+void fillXY(Triangle* triangle, Robot aRobot) {
+    // the relative position compared to the block
+    int relativePosY[4][3] = {
+        {22, 4, 22},
+        {4, 22, 4},
+        {4, 13, 22},
+        {4, 13, 22}
+    };
+    int relativePosX[4][3] = {
+        {4, 13, 22},
+        {4, 13, 22},
+        {4, 22, 4},
+        {22, 4, 22}
+    };
+    int dir = aRobot.dir;
+    int y0 = absoluteY(aRobot, relativePosY[dir][0]);
+    int y1 = absoluteY(aRobot, relativePosY[dir][1]);
+    int y2 = absoluteY(aRobot, relativePosY[dir][2]);
+    int x0 = absoluteX(aRobot, relativePosX[dir][0]);
+    int x1 = absoluteX(aRobot, relativePosX[dir][1]);
+    int x2 = absoluteX(aRobot, relativePosX[dir][2]);
+    fillXs(triangle, x0, x1, x2);
+    fillYs(triangle, y0, y1, y2);
+}
+
 void drawHome(int x, int y) {
     setColour(blue);
     fillRect(INITOFFSET + SIDELENGTH * y, INITOFFSET + SIDELENGTH * x, SIDELENGTH, SIDELENGTH); // Fill the home square with blue.
@@ -25,24 +58,7 @@ void drawRobot(Robot aRobot) {
     setColour(green);
     Triangle equilateralTriangle;
 
-    switch (aRobot.dir) {
-        case NORTH: 
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 22, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 22);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 13, INITOFFSET + SIDELENGTH * aRobot.y + 22);
-            break;
-        case SOUTH:
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 22, INITOFFSET + SIDELENGTH * aRobot.x + 4);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 13, INITOFFSET + SIDELENGTH * aRobot.y + 22);
-            break;
-        case EAST:
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 13, INITOFFSET + SIDELENGTH * aRobot.x + 22);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 22, INITOFFSET + SIDELENGTH * aRobot.y + 4);
-            break;
-        case WEST:
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 13, INITOFFSET + SIDELENGTH * aRobot.x + 22);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 22, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 22);
-            break;
-    }
+    fillXY(&equilateralTriangle, aRobot);
 
     fillPolygon(3, equilateralTriangle.xs, equilateralTriangle.ys);
 
