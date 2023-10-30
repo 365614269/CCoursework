@@ -1,16 +1,10 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include "graphics.h"
 #include "robotGraphics.h"
 #include "controls.h"
 
-#define SIZE 10  // The size of grid is SIZE*SIZE
-#define SIDELENGTH 25  // The sidelength of each cell
-#define COUNTMARKERS 5
-#define COUNTBLOCKS 10
 
-
-void escapeVertical(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
+void escapeVertical(Robot* aRobot, Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
     int flag = 1;
     int offset = 1;
 
@@ -30,7 +24,7 @@ void escapeVertical(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int nowC
     }
 }
 
-void escapeHorizontal(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
+void escapeHorizontal(Robot* aRobot, Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
     int flag = 1;
     int offset = 1;
 
@@ -51,7 +45,7 @@ void escapeHorizontal(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int no
 }
 
 
-void goToColumn(struct Robot* aRobot, int destY, struct Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void goToColumn(Robot* aRobot, int destY, Cell grid[SIZE][SIZE], int initialX, int initialY) {
     int nowCase;
     if (destY > aRobot->y) {
         faceEast(aRobot);
@@ -73,7 +67,7 @@ void goToColumn(struct Robot* aRobot, int destY, struct Cell grid[SIZE][SIZE], i
     }
 }
 
-void goToRow(struct Robot* aRobot, int destX, struct Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void goToRow(Robot* aRobot, int destX, Cell grid[SIZE][SIZE], int initialX, int initialY) {
     int nowCase;
     if (destX > aRobot->x){
         faceSouth(aRobot);
@@ -96,12 +90,12 @@ void goToRow(struct Robot* aRobot, int destX, struct Cell grid[SIZE][SIZE], int 
     }
 }
 
-void findNextMarker(struct Robot* aRobot, int destX, int destY, struct Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void findNextMarker(Robot* aRobot, int destX, int destY, Cell grid[SIZE][SIZE], int initialX, int initialY) {
     goToColumn(aRobot, destY, grid, initialX, initialY);
     goToRow(aRobot, destX, grid, initialX, initialY);
 }
 
-void returnHome(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY) {
     pickUpMarker(aRobot, grid);
     left(aRobot);
     left(aRobot);
@@ -121,13 +115,12 @@ void returnHome(struct Robot* aRobot, struct Cell grid[SIZE][SIZE], int initialX
 
 
 int main(int argc, char **argv) {
-    struct Robot robot = {};
-    struct Cell grid[SIZE][SIZE] = {};
-
+    Robot robot = {};
+    Cell grid[SIZE][SIZE] = {};
 
     int initialX = 6;
     int initialY = 5;
-    char *initialDirection = "north";
+    Direction initialDirection = NORTH;
 
     int markersPos[COUNTMARKERS][2] = {{0, 5}, {9, 2}, {0, 0}, {2, 7}, {4, 6}};
     int blocksPos[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
@@ -135,16 +128,27 @@ int main(int argc, char **argv) {
     if (argc == 4) {
         initialX = atoi(argv[1]);
         initialY = atoi(argv[2]);
-        initialDirection = argv[3];
+        char* dir = argv[3];
+        if (!strcmp(dir, "north"))
+            initialDirection = NORTH;
+        else if (!strcmp(dir, "south"))
+            initialDirection = SOUTH;
+        else if (!strcmp(dir, "east"))
+            initialDirection = EAST;
+        else if (!strcmp(dir, "west"))
+            initialDirection = WEST;
+        else {
+            printf("Invalid direction: %s", dir);
+        }
     }
 
     // Place a few blocks on the grid.
-    for(int i = 0; i < COUNTBLOCKS; i++){
+    for(int i = 0; i < COUNTBLOCKS; i++) {
         grid[blocksPos[i][0]][blocksPos[i][1]].blocked = 1;
     }
 
     // Place a few markers on the grid.
-    for(int i = 0; i < COUNTMARKERS; i++){
+    for(int i = 0; i < COUNTMARKERS; i++) {
         grid[markersPos[i][0]][markersPos[i][1]].markers = 1;
     }
 
@@ -166,4 +170,6 @@ int main(int argc, char **argv) {
         
         robot.prevSteps[0] = '\0';  // Clear the previous steps of the robot.
     }
+
+    return 0;
 }

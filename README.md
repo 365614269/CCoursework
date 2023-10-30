@@ -7,13 +7,13 @@ All the 6 stages required in the CCoursework.pdf are completed.
 
 To compile the code, use the command
 
-- gcc -o fileName main.c robotGraphics.c controls.c graphics.c
+- `gcc -o fileName main.c robotGraphics.c controls.c graphics.c`
 
 Fill in the desired fileName, and you will create an executable file.
 
 To run the executable file, use the command
 
-- ./fileName 2 3 south | java -jar drawapp-3.0.jar
+- `./fileName 2 3 south | java -jar drawapp-3.0.jar`
 
 You can see the 3 positional arguments passed, that indicates the starting position and direction of the robot.
 
