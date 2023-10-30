@@ -3,7 +3,10 @@
 
 
 #define SIZE 10
-
+#define SIDELENGTH 25
+#define INITOFFSET 20
+#define COUNTMARKERS 5
+#define COUNTBLOCKS 10
 
 typedef enum {
     NORTH,

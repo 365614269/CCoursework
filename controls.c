@@ -1,6 +1,5 @@
 #include "robotGraphics.h"
 #include "graphics.h"
-#define SIZE 10
 
 // Below are the control functions of the robot.
 

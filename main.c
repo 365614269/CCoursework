@@ -3,11 +3,6 @@
 #include "robotGraphics.h"
 #include "controls.h"
 
-#define SIZE 10  // The size of grid is SIZE*SIZE
-#define SIDELENGTH 25  // The sidelength of each cell
-#define COUNTMARKERS 5
-#define COUNTBLOCKS 10
-
 
 void escapeVertical(Robot* aRobot, Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
     int flag = 1;

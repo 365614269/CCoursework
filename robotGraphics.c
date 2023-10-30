@@ -1,9 +1,6 @@
 // Below are the drawing functions of the aRobot.
 #include "graphics.h"
 #include "robotGraphics.h"
-#define SIZE 10
-#define SIDELENGTH 25
-#define INITOFFSET 20
 
 
 void fillXs(Triangle* triangle, int x0, int x1, int x2) {
@@ -20,7 +17,7 @@ void fillYs(Triangle* triangle, int y0, int y1, int y2) {
 
 void drawHome(int x, int y) {
     setColour(blue);
-    fillRect(INITOFFSET + SIDELENGTH*y, INITOFFSET + SIDELENGTH*x, SIDELENGTH, SIDELENGTH); // Fill the home square with blue.
+    fillRect(INITOFFSET + SIDELENGTH * y, INITOFFSET + SIDELENGTH * x, SIDELENGTH, SIDELENGTH); // Fill the home square with blue.
     setColour(black);
 }
 
@@ -30,20 +27,20 @@ void drawRobot(Robot aRobot) {
 
     switch (aRobot.dir) {
         case NORTH: 
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 22, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 22);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 13, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 22, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 22);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 13, INITOFFSET + SIDELENGTH * aRobot.y + 22);
             break;
         case SOUTH:
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 22, INITOFFSET + SIDELENGTH*aRobot.x + 4);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 13, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 22, INITOFFSET + SIDELENGTH * aRobot.x + 4);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 13, INITOFFSET + SIDELENGTH * aRobot.y + 22);
             break;
         case EAST:
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 13, INITOFFSET + SIDELENGTH*aRobot.x + 22);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 22, INITOFFSET + SIDELENGTH*aRobot.y + 4);
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 13, INITOFFSET + SIDELENGTH * aRobot.x + 22);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 22, INITOFFSET + SIDELENGTH * aRobot.y + 4);
             break;
         case WEST:
-            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 13, INITOFFSET + SIDELENGTH*aRobot.x + 22);
-            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 22, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.x + 4, INITOFFSET + SIDELENGTH * aRobot.x + 13, INITOFFSET + SIDELENGTH * aRobot.x + 22);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH * aRobot.y + 22, INITOFFSET + SIDELENGTH * aRobot.y + 4, INITOFFSET + SIDELENGTH * aRobot.y + 22);
             break;
     }
 
@@ -51,7 +48,7 @@ void drawRobot(Robot aRobot) {
 
     if (aRobot.carrysMarker) {  // If the robot carrys a marker, draw a marker on it.
         setColour(red);
-        fillOval(INITOFFSET + aRobot.y*SIDELENGTH + 5, INITOFFSET + aRobot.x*SIDELENGTH + 5, 15, 15);
+        fillOval(INITOFFSET + aRobot.y * SIDELENGTH + 5, INITOFFSET + aRobot.x * SIDELENGTH + 5, 15, 15);
     }
     setColour(black);
 }
@@ -62,19 +59,19 @@ void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY) {
 
     for(int i = 0; i < SIZE; i++) {
         for(int j = 0; j < SIZE; j++) {
-            drawRect(INITOFFSET + i*SIDELENGTH, INITOFFSET + j*SIDELENGTH, SIDELENGTH, SIDELENGTH);  // Draw a square cell at position (i,j)
+            drawRect(INITOFFSET + i * SIDELENGTH, INITOFFSET + j * SIDELENGTH, SIDELENGTH, SIDELENGTH);  // Draw a square cell at position (i,j)
             if (grid[i][j].markers) {  // Draw a red dot as a marker.
                 setColour(red);
-                fillOval(INITOFFSET + j*SIDELENGTH + 5, INITOFFSET + i*SIDELENGTH + 5, 15, 15);
+                fillOval(INITOFFSET + j * SIDELENGTH + 5, INITOFFSET + i * SIDELENGTH + 5, 15, 15);
                 setColour(black);
             } else if (grid[i][j].blocked) {
                 setColour(gray);
-                fillRect(INITOFFSET + j*SIDELENGTH, INITOFFSET + i*SIDELENGTH, SIDELENGTH, SIDELENGTH);
+                fillRect(INITOFFSET + j * SIDELENGTH, INITOFFSET + i * SIDELENGTH, SIDELENGTH, SIDELENGTH);
                 setColour(black);
             }
         }
     }
 
     drawRobot(aRobot);
-    sleep(100);  // Adjust the speed of the robot here!
+    sleep(0);  // Adjust the speed of the robot here!
 }
