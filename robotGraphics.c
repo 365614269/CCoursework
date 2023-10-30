@@ -38,6 +38,7 @@ void fillXY(Triangle* triangle, Robot aRobot) {
         {22, 4, 22}
     };
     int dir = aRobot.dir;
+    // use a for loop if you want
     int y0 = absoluteY(aRobot, relativePosY[dir][0]);
     int y1 = absoluteY(aRobot, relativePosY[dir][1]);
     int y2 = absoluteY(aRobot, relativePosY[dir][2]);
