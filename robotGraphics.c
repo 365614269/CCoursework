@@ -5,18 +5,14 @@
 #define SIDELENGTH 25
 #define INITOFFSET 20
 
-struct Triangle{
-    int xs[3];
-    int ys[3];
-};
 
-void fillXs(struct Triangle* triangle, int x0, int x1, int x2) {
+void fillXs(Triangle* triangle, int x0, int x1, int x2) {
     triangle->xs[0] = x0;
     triangle->xs[1] = x1;
     triangle->xs[2] = x2;
 }
 
-void fillYs(struct Triangle* triangle, int y0, int y1, int y2) {
+void fillYs(Triangle* triangle, int y0, int y1, int y2) {
     triangle->ys[0] = y0;
     triangle->ys[1] = y1;
     triangle->ys[2] = y2;
@@ -28,22 +24,27 @@ void drawHome(int x, int y) {
     setColour(black);
 }
 
-void drawRobot(struct Robot aRobot) {
+void drawRobot(Robot aRobot) {
     setColour(green);
-    struct Triangle equilateralTriangle;
+    Triangle equilateralTriangle;
 
-    if (!strcmp(aRobot.dir, "east")) {
-        fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 13, INITOFFSET + SIDELENGTH*aRobot.x + 22);
-        fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 22, INITOFFSET + SIDELENGTH*aRobot.y + 4);
-    } else if (!strcmp(aRobot.dir, "west")) {
-        fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 13, INITOFFSET + SIDELENGTH*aRobot.x + 22);
-        fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 22, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 22);
-    } else if (!strcmp(aRobot.dir, "north")) {
-        fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 22, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 22);
-        fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 13, INITOFFSET + SIDELENGTH*aRobot.y + 22);
-    } else if (!strcmp(aRobot.dir, "south")) {
-        fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 22, INITOFFSET + SIDELENGTH*aRobot.x + 4);
-        fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 13, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+    switch (aRobot.dir) {
+        case NORTH: 
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 22, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 22);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 13, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+            break;
+        case SOUTH:
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 22, INITOFFSET + SIDELENGTH*aRobot.x + 4);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 13, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+            break;
+        case EAST:
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 13, INITOFFSET + SIDELENGTH*aRobot.x + 22);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 22, INITOFFSET + SIDELENGTH*aRobot.y + 4);
+            break;
+        case WEST:
+            fillYs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.x + 4, INITOFFSET + SIDELENGTH*aRobot.x + 13, INITOFFSET + SIDELENGTH*aRobot.x + 22);
+            fillXs(&equilateralTriangle, INITOFFSET + SIDELENGTH*aRobot.y + 22, INITOFFSET + SIDELENGTH*aRobot.y + 4, INITOFFSET + SIDELENGTH*aRobot.y + 22);
+            break;
     }
 
     fillPolygon(3, equilateralTriangle.xs, equilateralTriangle.ys);
@@ -55,7 +56,7 @@ void drawRobot(struct Robot aRobot) {
     setColour(black);
 }
 
-void drawGrid(struct Robot aRobot, struct Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY) {
     clear();
     drawHome(initialX, initialY);
 
