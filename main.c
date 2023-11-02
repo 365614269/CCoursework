@@ -1,101 +1,15 @@
-#include <stdio.h>
 #include "graphics.h"
 #include "robotGraphics.h"
 #include "controls.h"
+#include <string.h>
+#include <stdio.h>
 
 
-void escapeVertical(Robot* aRobot, Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
-    int flag = 1;
-    int offset = 1;
+int markersPos[COUNTMARKERS][2] = {{0, 5}, {4, 6}, {7, 2}};
+int blocksPos[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
+char pathways[COUNTMARKERS][500];
 
-    while (flag) {
-        int LHS = aRobot->y - offset;
-        int RHS = aRobot->y + offset;
-
-        if (LHS >= 0 && !grid[LHS][aRobot->y + nowCase].blocked) {
-            moveRight(aRobot, offset, grid, initialX, initialY);
-            flag = 0;
-        } else if (RHS <= 9 && !grid[RHS][aRobot->y + nowCase].blocked) {
-            moveLeft(aRobot, offset, grid, initialX, initialY);
-            flag = 0;
-        }
-        
-        offset++;
-    }
-}
-
-void escapeHorizontal(Robot* aRobot, Cell grid[SIZE][SIZE], int nowCase, int initialX, int initialY) {
-    int flag = 1;
-    int offset = 1;
-
-    while (flag) {
-        int LHS = aRobot->x - offset;
-        int RHS = aRobot->x + offset;
-
-        if (LHS >= 0 && !grid[LHS][aRobot->y + nowCase].blocked) {
-            moveRight(aRobot, offset, grid, initialX, initialY);
-            flag = 0;
-        } else if (RHS <= 9 && !grid[RHS][aRobot->y + nowCase].blocked) {
-            moveLeft(aRobot, offset, grid, initialX, initialY);
-            flag = 0;
-        }
-        
-        offset++;
-    }
-}
-
-
-void goToColumn(Robot* aRobot, int destY, Cell grid[SIZE][SIZE], int initialX, int initialY) {
-    int nowCase;
-    if (destY > aRobot->y) {
-        faceEast(aRobot);
-        nowCase = 1;
-    } else if (destY < aRobot->y) {
-        faceWest(aRobot);
-        nowCase = -1;
-    } else {
-        return;
-    }
-
-    while (aRobot->y != destY) {
-        if (canMoveForward(aRobot, grid)) {
-            forward(aRobot);
-            drawGrid(*aRobot, grid, initialX, initialY);
-        } else {  // Get rid of the wall in the front.
-            escapeVertical(aRobot, grid, nowCase, initialX, initialY);
-        }
-    }
-}
-
-void goToRow(Robot* aRobot, int destX, Cell grid[SIZE][SIZE], int initialX, int initialY) {
-    int nowCase;
-    if (destX > aRobot->x){
-        faceSouth(aRobot);
-        nowCase = 1;
-    } else if (destX < aRobot->x){
-        faceNorth(aRobot);
-        nowCase = -1;
-    } else {
-        return;
-    }
-
-    while (aRobot->x != destX) {
-        int offset = 1;
-        if (canMoveForward(aRobot, grid)) {
-            forward(aRobot);
-            drawGrid(*aRobot, grid, initialX, initialY);
-        } else {  // Get rid of the wall in the front.
-            escapeHorizontal(aRobot, grid, nowCase, initialX, initialY);
-        }
-    }
-}
-
-void findNextMarker(Robot* aRobot, int destX, int destY, Cell grid[SIZE][SIZE], int initialX, int initialY) {
-    goToColumn(aRobot, destY, grid, initialX, initialY);
-    goToRow(aRobot, destX, grid, initialX, initialY);
-}
-
-void returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY, int initialDirection) {
     pickUpMarker(aRobot, grid);
     left(aRobot);
     left(aRobot);
@@ -111,10 +25,51 @@ void returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY
         }
         drawGrid(*aRobot, grid, initialX, initialY);
     }
+
+    faceDir(aRobot, initialDirection);
+}
+
+
+void dfs(Robot aRobot, Cell grid[SIZE][SIZE], int booked[SIZE][SIZE]) {
+    if (grid[aRobot.x][aRobot.y].markers) {
+        for(int i = 0; i < COUNTMARKERS; i++) {
+            if (aRobot.x == markersPos[i][0] && aRobot.y == markersPos[i][1]) {
+                strcpy(pathways[i], aRobot.prevSteps);
+            }
+        }
+        return;
+    }
+
+    if (booked[aRobot.x][aRobot.y]) {
+        // printf("APATH %d %d %s\n", aRobot.x, aRobot.y, aRobot.prevSteps);
+        return;
+    } else {
+        booked[aRobot.x][aRobot.y] = 1;
+        int dx[4] = {-1, 0, 1, 0};  // Corresponds to NORTH, EAST, SOUTH, WEST
+        int dy[4] = {0, 1, 0, -1};
+        // printf("%d %d %d %s\n", aRobot.x, aRobot.y, aRobot.dir, aRobot.prevSteps);
+
+        for(int i = 0; i < 4; i++){
+            int newX = aRobot.x + dx[i];
+            int newY = aRobot.y + dy[i];
+
+            if (newX >= 0 && newX <= SIZE - 1 && newY >= 0 && newY <= SIZE - 1 && 
+                !grid[newX][newY].blocked) {
+
+                Robot newRobot = {aRobot.x, aRobot.y, aRobot.dir, aRobot.carrysMarker, ' '};
+                strcpy(newRobot.prevSteps, aRobot.prevSteps);
+                
+                faceDir(&newRobot, i);
+                forward(&newRobot);
+                dfs(newRobot, grid, booked);
+            }
+        }
+    }
 }
 
 
 int main(int argc, char **argv) {
+    setbuf(stdout, NULL);  // Disable output buffering
     Robot robot = {};
     Cell grid[SIZE][SIZE] = {};
 
@@ -122,8 +77,6 @@ int main(int argc, char **argv) {
     int initialY = 5;
     Direction initialDirection = NORTH;
 
-    int markersPos[COUNTMARKERS][2] = {{0, 5}, {9, 2}, {0, 0}, {2, 7}, {4, 6}};
-    int blocksPos[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
 
     if (argc == 4) {
         initialX = atoi(argv[1]);
@@ -156,19 +109,36 @@ int main(int argc, char **argv) {
     robot.x = initialX;
     robot.y = initialY;
     robot.dir = initialDirection;
-    
-    for(int i = 0; i < COUNTMARKERS; i++) {
-        drawGrid(robot, grid, initialX, initialY);
-        drawRobot(robot);
-        
-        findNextMarker(&robot, markersPos[i][0], markersPos[i][1], grid, initialX, initialY);
 
-        drawGrid(robot, grid, initialX, initialY);
-        
-        returnHome(&robot, grid, initialX, initialY);
+    int booked[SIZE][SIZE] = {};
+    dfs(robot, grid, booked);
+    drawGrid(robot, grid, initialX, initialY);
+
+    // printf("BUFFERED %d %s\n", strlen(buffered), buffered);
+    int nowMarker = 0;
+    while (nowMarker < COUNTMARKERS){
+        for(int j = 0; pathways[nowMarker][j] != '\0'; j++) {
+            char action = pathways[nowMarker][j];
+
+            if (action == 'F') {
+                forward(&robot);
+            } else if (action == 'L') {
+                left(&robot);
+            } else if (action == 'R') {
+                right(&robot);
+            } else {
+                printf("Invalid action.");
+            }
+            drawGrid(robot, grid, initialX, initialY);
+        }
+
+        printf("nowMarker0=%d\n", nowMarker);
+        returnHome(&robot, grid, initialX, initialY, initialDirection);
+        printf("nowMarker1=%d\n", nowMarker);
         dropMarker(&robot, grid);
-        
-        robot.prevSteps[0] = '\0';  // Clear the previous steps of the robot.
+        robot.prevSteps[0] = '\0';
+        printf("nowMarker=%d\n", nowMarker);
+        nowMarker = nowMarker + 1;
     }
 
     return 0;

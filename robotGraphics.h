@@ -1,39 +1,35 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 #define SIZE 10
 #define SIDELENGTH 25
 #define INITOFFSET 20
-#define COUNTMARKERS 5
+#define COUNTMARKERS 3
 #define COUNTBLOCKS 10
 
 typedef enum {
     NORTH,
-    SOUTH,
     EAST,
+    SOUTH,
     WEST
 } Direction;
 
-struct Robot {
+typedef struct {
     int x, y;
     Direction dir;
     int carrysMarker;
-    char prevSteps[100];  // A string recording the previoius steps of robot. {F,L,R} means forward(), left(), right().
-};
-typedef struct Robot Robot;
+    char prevSteps[100];  // A string recording the previoius steps of robot. \{F,L,R} means forward(), left(), right().
+} Robot;
 
-struct Cell {
+typedef struct {
     int markers;
     int blocked;
-};
-typedef struct Cell Cell;
+} Cell;
 
-struct Triangle{
+typedef struct{
     int xs[3];
     int ys[3];
-};
-typedef struct Triangle Triangle;
+} Triangle;
 
 void drawHome(int x, int y);
 void drawRobot(Robot aRobot);
