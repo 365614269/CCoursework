@@ -23,4 +23,4 @@ The second argument is the y coordinate. Note that x increments to the right in 
 
 The third argument is the direction. Note that direction north is upwards the screen.
 
-To let drawapp-3.0 function, you'll need JDK 21 installed.
+To let drawapp-3.0.jar function, you'll need JDK 21 installed.
