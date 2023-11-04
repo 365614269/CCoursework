@@ -2,6 +2,8 @@
 #include "graphics.h"
 #include "robotGraphics.h"
 
+extern int initialX;
+extern int initialY;
 
 int absoluteY(Robot aRobot, int relative) {
     return INITOFFSET + SIDELENGTH * aRobot.x + relative;
@@ -54,8 +56,9 @@ void drawRobot(Robot aRobot) {
     setColour(black);
 }
 
-void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY) {
+void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]) {
     clear();
+    // printf("%d %d\n", initialX, initialY);
     drawHome(initialX, initialY);
 
     for(int i = 0; i < SIZE; i++) {
@@ -74,5 +77,5 @@ void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE], int initialX, int initialY) {
     }
 
     drawRobot(aRobot);
-    sleep(100);  // Adjust the speed of the robot here!
+    sleep(5);  // Adjust the speed of the robot here!
 }
