@@ -44,7 +44,7 @@ void initGrid(Robot* aRobot, Cell grid[SIZE][SIZE]) {
 }
 
 
-int convertToDirection(char* Dir) {
+int stringToDirection(char* Dir) {
     if (!strcmp(Dir, "north"))
         return 0;
     else if (!strcmp(Dir, "south"))
@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
         initialX = atoi(argv[1]);
         initialY = atoi(argv[2]);
         char* dir = argv[3];
-        initialDirection = convertToDirection(dir);
+        initialDirection = stringToDirection(dir);
     }
 
     initGrid(&robot, grid);
