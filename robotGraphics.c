@@ -58,7 +58,6 @@ void drawRobot(Robot aRobot) {
 
 void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]) {
     clear();
-    // printf("%d %d\n", initialX, initialY);
     drawHome(initialX, initialY);
 
     for(int i = 0; i < SIZE; i++) {
@@ -68,7 +67,7 @@ void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]) {
                 setColour(red);
                 fillOval(INITOFFSET + j * SIDELENGTH + 5, INITOFFSET + i * SIDELENGTH + 5, 15, 15);
                 setColour(black);
-            } else if (grid[i][j].blocked) {
+            } else if (grid[i][j].blocked) {  // Draw a grey block as an obstacle.
                 setColour(gray);
                 fillRect(INITOFFSET + j * SIDELENGTH, INITOFFSET + i * SIDELENGTH, SIDELENGTH, SIDELENGTH);
                 setColour(black);
