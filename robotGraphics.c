@@ -76,5 +76,5 @@ void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]) {
     }
 
     drawRobot(aRobot);
-    sleep(100);  // Adjust the speed of the robot here!
+    sleep(1);  // Adjust the speed of the robot here!
 }
