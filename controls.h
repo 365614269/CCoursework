@@ -1,3 +1,5 @@
+#include "robotGraphics.h"
+
 void forward(Robot* aRobot);
 void left(Robot* aRobot);
 void right(Robot* aRobot);
