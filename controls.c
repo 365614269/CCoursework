@@ -1,4 +1,4 @@
-#include "robotGraphics.h"
+#include "controls.h"
 #include "graphics.h"
 
 void forward(Robot* aRobot) {
