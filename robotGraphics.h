@@ -31,4 +31,6 @@ typedef struct{
     int ys[3];
 } Triangle;
 
-void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]);
+void render(Robot aRobot, Cell grid[SIZE][SIZE]);
+void drawBackground(Cell grid[SIZE][SIZE]);
+

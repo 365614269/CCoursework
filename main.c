@@ -62,7 +62,7 @@ int stringToDirection(char* Dir) {
 int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker) {
     left(aRobot);
     left(aRobot);
-    drawGrid(*aRobot, grid);
+    render(*aRobot, grid);
 
     for(int prevStep = strlen(aRobot->prevSteps) - 3; prevStep >= 0; prevStep--) {
         if (aRobot->prevSteps[prevStep] == 'L') {
@@ -72,7 +72,7 @@ int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker) {
         } else if (aRobot->prevSteps[prevStep] == 'F') {
             forward(aRobot);
         }
-        drawGrid(*aRobot, grid);
+        render(*aRobot, grid);
     }
     
     faceDir(aRobot, initialDirection);
@@ -131,10 +131,11 @@ int main(int argc, char **argv) {
     }
 
     initGrid(&robot, grid);
+    drawBackground(grid);
 
     int booked[SIZE][SIZE] = {};
     dfs(robot, grid, booked);
-    drawGrid(robot, grid);
+    render(robot, grid);
 
     int nowMarker = 0;
 
@@ -142,7 +143,7 @@ int main(int argc, char **argv) {
         for(int j = 0; pathways[nowMarker][j] != '\0'; j++) {
             char action = pathways[nowMarker][j];
             move(&robot, action);
-            drawGrid(robot, grid);
+            render(robot, grid);
         }
 
         pickUpMarker(&robot, grid);
@@ -155,3 +156,4 @@ int main(int argc, char **argv) {
     
     return 0;
 }
+

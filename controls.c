@@ -76,3 +76,4 @@ void faceDir(Robot* aRobot, Direction destDir) {
         return;
     }
 }
+

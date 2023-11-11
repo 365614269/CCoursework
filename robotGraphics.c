@@ -36,12 +36,30 @@ void fillXY(Triangle* triangle, Robot aRobot) {
 }
 
 void drawHome(int x, int y) {
+    background();
     setColour(blue);
     fillRect(INITOFFSET + SIDELENGTH * y, INITOFFSET + SIDELENGTH * x, SIDELENGTH, SIDELENGTH); // Fill the home square with blue.
     setColour(black);
 }
 
+void drawBackground(Cell grid[SIZE][SIZE]) {
+    background();
+    drawHome(initialX, initialY);
+    for(int i = 0; i < SIZE; i++) {
+        for(int j = 0; j < SIZE; j++) {
+            drawRect(INITOFFSET + i * SIDELENGTH, INITOFFSET + j * SIDELENGTH, SIDELENGTH, SIDELENGTH);  // Draw a square cell at position (i,j)
+            if (grid[i][j].blocked) {  // Draw a grey block as an obstacle.
+                setColour(gray);
+                fillRect(INITOFFSET + j * SIDELENGTH, INITOFFSET + i * SIDELENGTH, SIDELENGTH, SIDELENGTH);
+                setColour(black);
+            }
+        }
+    }
+
+}
+
 void drawRobot(Robot aRobot) {
+    foreground();
     setColour(green);
     Triangle equilateralTriangle;
 
@@ -56,20 +74,15 @@ void drawRobot(Robot aRobot) {
     setColour(black);
 }
 
-void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]) {
+void render(Robot aRobot, Cell grid[SIZE][SIZE]) {
+    foreground();
     clear();
-    drawHome(initialX, initialY);
 
     for(int i = 0; i < SIZE; i++) {
         for(int j = 0; j < SIZE; j++) {
-            drawRect(INITOFFSET + i * SIDELENGTH, INITOFFSET + j * SIDELENGTH, SIDELENGTH, SIDELENGTH);  // Draw a square cell at position (i,j)
             if (grid[i][j].markers) {  // Draw a red dot as a marker.
                 setColour(red);
                 fillOval(INITOFFSET + j * SIDELENGTH + 5, INITOFFSET + i * SIDELENGTH + 5, 15, 15);
-                setColour(black);
-            } else if (grid[i][j].blocked) {  // Draw a grey block as an obstacle.
-                setColour(gray);
-                fillRect(INITOFFSET + j * SIDELENGTH, INITOFFSET + i * SIDELENGTH, SIDELENGTH, SIDELENGTH);
                 setColour(black);
             }
         }
@@ -78,3 +91,4 @@ void drawGrid(Robot aRobot, Cell grid[SIZE][SIZE]) {
     drawRobot(aRobot);
     sleep(100);  // Adjust the speed of the robot here!
 }
+
