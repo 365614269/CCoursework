@@ -10,4 +10,6 @@ void pickUpMarker(Robot* aRobot, Cell grid[SIZE][SIZE]);
 void dropMarker(Robot* aRobot, Cell grid[SIZE][SIZE]);
 int isCarryingAMarker(Robot aRobot);
 void faceDir(Robot* aRobot, Direction destDir);
+void move(Robot* aRobot, char action);
+int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker);
 

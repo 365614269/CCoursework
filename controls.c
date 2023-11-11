@@ -1,5 +1,9 @@
 #include "controls.h"
 #include "graphics.h"
+#include <stdio.h>
+
+
+extern Direction initialDirection;
 
 void forward(Robot* aRobot) {
     int dx[] = {-1, 0, 1, 0};  // Corresponds to NORTH, EAST, SOUTH, WEST
@@ -75,5 +79,37 @@ void faceDir(Robot* aRobot, Direction destDir) {
     } else {
         return;
     }
+}
+
+void move(Robot* aRobot, char action) {
+    if (action == 'F') {
+        forward(aRobot);
+    } else if (action == 'L') {
+        left(aRobot);
+    } else if (action == 'R') {
+        right(aRobot);
+    } else {
+        printf("Invalid action %c\n", action);
+    }
+}
+
+int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker) {
+    left(aRobot);
+    left(aRobot);
+    render(*aRobot, grid);
+
+    for(int prevStep = strlen(aRobot->prevSteps) - 3; prevStep >= 0; prevStep--) {
+        if (aRobot->prevSteps[prevStep] == 'L') {
+            right(aRobot);
+        } else if (aRobot->prevSteps[prevStep] == 'R') {
+            left(aRobot);
+        } else if (aRobot->prevSteps[prevStep] == 'F') {
+            forward(aRobot);
+        }
+        render(*aRobot, grid);
+    }
+    
+    faceDir(aRobot, initialDirection);
+    return nowMarker;
 }
 

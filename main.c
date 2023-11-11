@@ -9,7 +9,7 @@ int blocksPos[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0},
 char pathways[COUNTMARKERS][500] = {};
 extern int initialX = 6;
 extern int initialY = 5;
-Direction initialDirection = NORTH;
+extern Direction initialDirection = NORTH;
 
 
 void validateInput() {
@@ -23,18 +23,6 @@ void validateInput() {
         initialY = 5;
         initialDirection = 0;
         printf("Illegal value for arguments, default values are used.\n");
-    }
-}
-
-void move(Robot* aRobot, char action) {
-    if (action == 'F') {
-        forward(aRobot);
-    } else if (action == 'L') {
-        left(aRobot);
-    } else if (action == 'R') {
-        right(aRobot);
-    } else {
-        printf("Invalid action %c\n", action);
     }
 }
 
@@ -70,27 +58,6 @@ int stringToDirection(char* Dir) {
         printf("Invalid direction: %s\n", Dir);
         return -1;
     }
-}
-
-
-int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker) {
-    left(aRobot);
-    left(aRobot);
-    render(*aRobot, grid);
-
-    for(int prevStep = strlen(aRobot->prevSteps) - 3; prevStep >= 0; prevStep--) {
-        if (aRobot->prevSteps[prevStep] == 'L') {
-            right(aRobot);
-        } else if (aRobot->prevSteps[prevStep] == 'R') {
-            left(aRobot);
-        } else if (aRobot->prevSteps[prevStep] == 'F') {
-            forward(aRobot);
-        }
-        render(*aRobot, grid);
-    }
-    
-    faceDir(aRobot, initialDirection);
-    return nowMarker;
 }
 
 
