@@ -12,6 +12,20 @@ extern int initialY = 5;
 Direction initialDirection = NORTH;
 
 
+void validateInput() {
+    if (initialX >= 0 && initialX <= 9 &&
+        initialY >= 0 && initialY <= 9 &&
+        initialDirection != -1)
+    {
+        return;
+    } else {
+        initialX = 6;
+        initialY = 5;
+        initialDirection = 0;
+        printf("Illegal value for arguments, default values are used.\n");
+    }
+}
+
 void move(Robot* aRobot, char action) {
     if (action == 'F') {
         forward(aRobot);
@@ -128,6 +142,9 @@ int main(int argc, char **argv) {
         initialY = atoi(argv[2]);
         char* dir = argv[3];
         initialDirection = stringToDirection(dir);
+        validateInput();
+    } else {
+        printf("Too few or too many arguments, default values are used.\n");
     }
 
     initGrid(&robot, grid);
