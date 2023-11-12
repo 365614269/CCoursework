@@ -3,8 +3,6 @@
 #include <stdio.h>
 
 
-extern Direction initialDirection;
-
 void forward(Robot* aRobot) {
     int dx[] = {-1, 0, 1, 0};  // Corresponds to NORTH, EAST, SOUTH, WEST
     int dy[] = {0, 1, 0, -1};
@@ -93,7 +91,7 @@ void move(Robot* aRobot, char action) {
     }
 }
 
-int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker) {
+int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker, Direction initialDirection) {
     left(aRobot);
     left(aRobot);
     drawForeground(*aRobot, grid);

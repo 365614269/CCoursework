@@ -7,9 +7,9 @@
 int markersPosition[COUNTMARKERS][2] = {{9, 2}, {0, 0}, {4, 6}, {7, 3}};
 int blocksPosition[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
 char pathwayToMarkers[COUNTMARKERS][500] = {};
-extern int initialX = 6;
-extern int initialY = 5;
-extern Direction initialDirection = NORTH;
+int initialX = 6;
+int initialY = 5;
+Direction initialDirection = NORTH;
 
 
 void validateInput() {
@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
     }
 
     initGrid(&robot, grid);
-    drawBackground(grid);
+    drawBackground(grid, initialX, initialY);
 
     int booked[SIZE][SIZE] = {};
     dfs(robot, grid, booked);
@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
         }
 
         pickUpMarker(&robot, grid);
-        int reNowMarker = returnHome(&robot, grid, nowMarker);
+        int reNowMarker = returnHome(&robot, grid, nowMarker, initialDirection);
         nowMarker = reNowMarker;
         dropMarker(&robot, grid);
         robot.prevSteps[0] = '\0';
