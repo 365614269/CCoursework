@@ -12,26 +12,42 @@ int initialY = 5;
 Direction initialDirection = NORTH;
 
 
-void readGrid(Cell grid[SIZE][SIZE]) {
-    FILE *fmarkers = fopen("markersPosition.txt", "r");
+void readBlocks(Cell grid[SIZE][SIZE]){
     FILE *fblocks = fopen("blocksPosition.txt", "r");
-    
-    for(int countMarker = 0; countMarker < COUNTMARKERS; countMarker++) {
-        int markerX, markerY;
-        fscanf(fmarkers, "%d %d\n", &markerX, &markerY);
-        markersPosition[countMarker][0] = markerX;
-        markersPosition[countMarker][1] = markerY;
-    }
+    if (fblocks == NULL) printf("Failed to open blocksPosition.txt\n");
 
     for(int countBlock = 0; countBlock < COUNTBLOCKS; countBlock++) {
         int blockX, blockY;
-        fscanf(fblocks, "%d %d\n", &blockX, &blockY);
+
+        if (fscanf(fblocks, "%d%d", &blockX, &blockY) != 2) {
+            printf("Error reading from blocksPosition.txt\n");
+            fclose(fblocks);
+        }
+
         blocksPosition[countBlock][0] = blockX;
         blocksPosition[countBlock][1] = blockY;
     }
 
-    fclose(fmarkers);
     fclose(fblocks);
+}
+
+void readMarkers(Cell grid[SIZE][SIZE]) {
+    FILE *fmarkers = fopen("markersPosition.txt", "r");
+    if (fmarkers == NULL) printf("Failed to open markersPosition.txt\n");
+    
+    for(int countMarker = 0; countMarker < COUNTMARKERS; countMarker++) {
+        int markerX, markerY;
+
+        if (fscanf(fmarkers, "%d%d", &markerX, &markerY) != 2) {
+            printf("Error reading from markersPosition.txt\n");
+            fclose(fmarkers);
+        }
+
+        markersPosition[countMarker][0] = markerX;
+        markersPosition[countMarker][1] = markerY;
+    }
+
+    fclose(fmarkers);
 }
 
 void validateInput() {
@@ -125,7 +141,8 @@ int main(int argc, char **argv) {
     setbuf(stdout, NULL);  // Disable output buffering
     Robot robot = {};
     Cell grid[SIZE][SIZE] = {};
-    readGrid(grid);
+    readMarkers(grid);
+    readBlocks(grid);
 
     if (argc == 4) {
         initialX = atoi(argv[1]);
