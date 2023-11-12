@@ -4,8 +4,8 @@
 #include <stdio.h>
 // Adjust the speed of robot at the end of robotGraphics.c!
 
-int markersPosition[COUNTMARKERS][2] = {{9, 2}, {0, 0}, {4, 6}, {7, 3}};
-int blocksPosition[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
+int markersPosition[COUNTMARKERS][2];
+int blocksPosition[COUNTBLOCKS][2];
 char pathwayToMarkers[COUNTMARKERS][500] = {};
 int initialX = 6;
 int initialY = 5;
