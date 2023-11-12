@@ -6,7 +6,7 @@
 
 int markersPosition[COUNTMARKERS][2] = {{9, 2}, {0, 0}, {4, 6}, {7, 3}};
 int blocksPosition[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
-char pathways[COUNTMARKERS][500] = {};  // Pathway from the home to each marker.
+char pathwayToMarkers[COUNTMARKERS][500] = {};
 extern int initialX = 6;
 extern int initialY = 5;
 extern Direction initialDirection = NORTH;
@@ -67,7 +67,7 @@ void dfs(Robot aRobot, Cell grid[SIZE][SIZE], int booked[SIZE][SIZE]) {
 
         for(int i = 0; i < COUNTMARKERS; i++) {
             if (aRobot.x == markersPosition[i][0] && aRobot.y == markersPosition[i][1]) {
-                strcpy(pathways[i], aRobot.prevSteps);
+                strcpy(pathwayToMarkers[i], aRobot.prevSteps);
             }
         }
         return;
@@ -124,8 +124,8 @@ int main(int argc, char **argv) {
     int nowMarker = 0;
 
     while (nowMarker < COUNTMARKERS) {
-        for(int j = 0; pathways[nowMarker][j] != '\0'; j++) {
-            char action = pathways[nowMarker][j];
+        for(int j = 0; pathwayToMarkers[nowMarker][j] != '\0'; j++) {
+            char action = pathwayToMarkers[nowMarker][j];
             move(&robot, action);
             drawForeground(robot, grid);
         }
