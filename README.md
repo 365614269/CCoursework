@@ -1,7 +1,10 @@
 # CCoursework
+# Prerequisite: JDK 21, gcc
 The UCL first year Computer Science Principles of Programming C Coursework.
 
 The aim of the project is to let a robot collect the markers positioned on the graphical grid one after another, and carry them back home. 
+
+The markers and blocks position are read from markersPosition.txt and blocksPosition.txt, respectively.
 
 All the 6 stages required in the CCoursework.pdf are completed.
 
@@ -9,7 +12,7 @@ To compile the code, use the command
 
 - `gcc -o [fileName] main.c robotGraphics.c controls.c graphics.c`
 
-Fill in the desired fileName, and you will create an executable file.
+Assign a value to variable fileName, and you will create an executable file called fileName.
 
 To run the executable file, use the command
 
