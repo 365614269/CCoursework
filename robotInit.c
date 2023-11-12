@@ -49,9 +49,6 @@ void readMarkers(Cell grid[SIZE][SIZE], int markersPosition[COUNTMARKERS][2]) {
                 fclose(fmarkers);
             }
         }
-
-        markersPosition[countMarker][0] = markerX;
-        markersPosition[countMarker][1] = markerY;
     }
 
     fclose(fmarkers);
