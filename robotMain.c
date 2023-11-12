@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include "robotControls.h"
+#include "robotGraphics.h"
 #include <string.h>
 #include <stdio.h>
 // Adjust the speed of robot at the end of robotGraphics.c!
@@ -10,63 +11,6 @@ char pathwayToMarkers[COUNTMARKERS][500] = {};
 int initialX = 6;
 int initialY = 5;
 Direction initialDirection = NORTH;
-
-
-void readBlocks(Cell grid[SIZE][SIZE]){
-    FILE *fblocks = fopen("blocksPosition.txt", "r");
-    if (fblocks == NULL) {
-        printf("Failed to open blocksPosition.txt\n");
-    }
-
-    for(int countBlock = 0; countBlock < COUNTBLOCKS; countBlock++) {
-        int blockX, blockY;
-
-        if (fscanf(fblocks, "%d%d", &blockX, &blockY) != 2) {
-            printf("Error reading: Not exactly 2 numbers on the line\n");
-            fclose(fblocks);
-        }
-
-        blocksPosition[countBlock][0] = blockX;
-        blocksPosition[countBlock][1] = blockY;
-    }
-
-    fclose(fblocks);
-}
-
-void readMarkers(Cell grid[SIZE][SIZE]) {
-    FILE *fmarkers = fopen("markersPosition.txt", "r");
-    if (fmarkers == NULL) {
-        printf("Failed to open markersPosition.txt\n");
-    }
-    
-    for(int countMarker = 0; countMarker < COUNTMARKERS; countMarker++) {
-        int markerX, markerY;
-
-        if (fscanf(fmarkers, "%d%d", &markerX, &markerY) != 2) {
-            printf("Error reading: Not exactly 2 numbers on the line\n");
-            fclose(fmarkers);
-        }
-
-        markersPosition[countMarker][0] = markerX;
-        markersPosition[countMarker][1] = markerY;
-    }
-
-    fclose(fmarkers);
-}
-
-void validateInput() {
-    if (initialX >= 0 && initialX <= 9 &&
-        initialY >= 0 && initialY <= 9 &&
-        initialDirection != -1)
-    {
-        return;
-    } else {
-        initialX = 6;
-        initialY = 5;
-        initialDirection = 0;
-        printf("Illegal value for arguments, default values are used.\n");
-    }
-}
 
 
 void initGrid(Robot* aRobot, Cell grid[SIZE][SIZE]) {
@@ -84,22 +28,6 @@ void initGrid(Robot* aRobot, Cell grid[SIZE][SIZE]) {
     aRobot->x = initialX;
     aRobot->y = initialY;
     aRobot->dir = initialDirection;
-}
-
-
-int stringToDirection(char* Dir) {
-    if (!strcmp(Dir, "north"))
-        return 0;
-    else if (!strcmp(Dir, "east"))
-        return 1;
-    else if (!strcmp(Dir, "south"))
-        return 2;
-    else if (!strcmp(Dir, "west"))
-        return 3;
-    else {
-        printf("Invalid direction: %s\n", Dir);
-        return -1;
-    }
 }
 
 
@@ -145,15 +73,15 @@ int main(int argc, char **argv) {
     setbuf(stdout, NULL);  // Disable output buffering
     Robot robot = {};
     Cell grid[SIZE][SIZE] = {};
-    readMarkers(grid);
-    readBlocks(grid);
+    readMarkers(grid, markersPosition);
+    readBlocks(grid, blocksPosition);
 
     if (argc == 4) {
         initialX = atoi(argv[1]);
         initialY = atoi(argv[2]);
         char* dir = argv[3];
         initialDirection = stringToDirection(dir);
-        validateInput();
+        validateInput(initialX, initialY, initialDirection);
     } else {
         printf("Incorrect number of arguments. It should be 4! Default values are used.\n");
     }

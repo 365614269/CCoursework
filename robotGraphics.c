@@ -1,5 +1,6 @@
 // Below are the drawing functions of the aRobot.
 #include "graphics.h"
+#include "robotInit.h"
 #include "robotGraphics.h"
 
 
