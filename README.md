@@ -6,7 +6,8 @@ The aim of the project is to let a robot collect the markers positioned on the g
 All the 6 stages required in the CCoursework.pdf are completed.
 
 # Prerequisite
-JDK 21, gcc
+- JDK 21
+- gcc
 
 # How to start
 The markers and blocks position are read from markersPosition.txt and blocksPosition.txt, respectively.
