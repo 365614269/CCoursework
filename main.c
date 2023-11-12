@@ -12,6 +12,28 @@ int initialY = 5;
 Direction initialDirection = NORTH;
 
 
+void readGrid(Cell grid[SIZE][SIZE]) {
+    FILE *fmarkers = fopen("markersPosition.txt", "r");
+    FILE *fblocks = fopen("blocksPosition.txt", "r");
+    
+    for(int countMarker = 0; countMarker < COUNTMARKERS; countMarker++) {
+        int markerX, markerY;
+        fscanf(fmarkers, "%d %d\n", &markerX, &markerY);
+        markersPosition[countMarker][0] = markerX;
+        markersPosition[countMarker][1] = markerY;
+    }
+
+    for(int countBlock = 0; countBlock < COUNTBLOCKS; countBlock++) {
+        int blockX, blockY;
+        fscanf(fblocks, "%d %d\n", &blockX, &blockY);
+        blocksPosition[countBlock][0] = blockX;
+        blocksPosition[countBlock][1] = blockY;
+    }
+
+    fclose(fmarkers);
+    fclose(fblocks);
+}
+
 void validateInput() {
     if (initialX >= 0 && initialX <= 9 &&
         initialY >= 0 && initialY <= 9 &&
@@ -103,6 +125,7 @@ int main(int argc, char **argv) {
     setbuf(stdout, NULL);  // Disable output buffering
     Robot robot = {};
     Cell grid[SIZE][SIZE] = {};
+    readGrid(grid);
 
     if (argc == 4) {
         initialX = atoi(argv[1]);
