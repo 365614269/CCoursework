@@ -4,8 +4,8 @@
 #include <stdio.h>
 // Adjust the speed of robot at the end of robotGraphics.c!
 
-int markersPos[COUNTMARKERS][2] = {{9, 2}, {0, 0}, {4, 6}, {7, 3}};
-int blocksPos[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
+int markersPosition[COUNTMARKERS][2] = {{9, 2}, {0, 0}, {4, 6}, {7, 3}};
+int blocksPosition[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
 char pathways[COUNTMARKERS][500] = {};
 extern int initialX = 6;
 extern int initialY = 5;
@@ -30,12 +30,12 @@ void validateInput() {
 void initGrid(Robot* aRobot, Cell grid[SIZE][SIZE]) {
     // Place a few blocks on the grid.
     for(int i = 0; i < COUNTBLOCKS; i++) {
-        grid[blocksPos[i][0]][blocksPos[i][1]].blocked = 1;
+        grid[blocksPosition[i][0]][blocksPosition[i][1]].blocked = 1;
     }
 
     // Place a few markers on the grid.
     for(int i = 0; i < COUNTMARKERS; i++) {
-        grid[markersPos[i][0]][markersPos[i][1]].markers = 1;
+        grid[markersPosition[i][0]][markersPosition[i][1]].markers = 1;
     }
 
     // Update the robot status according to the command line arguments.
@@ -66,7 +66,7 @@ void dfs(Robot aRobot, Cell grid[SIZE][SIZE], int booked[SIZE][SIZE]) {
         booked[aRobot.x][aRobot.y] = 1;
 
         for(int i = 0; i < COUNTMARKERS; i++) {
-            if (aRobot.x == markersPos[i][0] && aRobot.y == markersPos[i][1]) {
+            if (aRobot.x == markersPosition[i][0] && aRobot.y == markersPosition[i][1]) {
                 strcpy(pathways[i], aRobot.prevSteps);
             }
         }
