@@ -90,10 +90,10 @@ void initGrid(Robot* aRobot, Cell grid[SIZE][SIZE]) {
 int stringToDirection(char* Dir) {
     if (!strcmp(Dir, "north"))
         return 0;
-    else if (!strcmp(Dir, "south"))
-        return 2;
     else if (!strcmp(Dir, "east"))
         return 1;
+    else if (!strcmp(Dir, "south"))
+        return 2;
     else if (!strcmp(Dir, "west"))
         return 3;
     else {
@@ -126,15 +126,15 @@ void dfs(Robot aRobot, Cell grid[SIZE][SIZE], int booked[SIZE][SIZE]) {
             int newX = aRobot.x + dx[i];
             int newY = aRobot.y + dy[i];
             
-            if (newX >= 0 && newX <= SIZE - 1 && newY >= 0 && newY <= SIZE - 1 && 
-                !grid[newX][newY].blocked) {
+            if (newX >= 0 && newX <= SIZE - 1 && newY >= 0 && newY <= SIZE - 1 &&  
+                !grid[newX][newY].blocked) {  // Condition: the newX and newY is within the grid and not blocked
 
-                Robot newRobot = {aRobot.x, aRobot.y, aRobot.dir, aRobot.carrysMarker, ' '};
-                strcpy(newRobot.prevSteps, aRobot.prevSteps);
+                Robot virtualRobot = {aRobot.x, aRobot.y, aRobot.dir, aRobot.carrysMarker, ' '};  // A new possibility of pathway.
+                strcpy(virtualRobot.prevSteps, aRobot.prevSteps);
                 
-                faceDir(&newRobot, i);
-                forward(&newRobot);
-                dfs(newRobot, grid, booked);
+                faceDir(&virtualRobot, i);
+                forward(&virtualRobot);
+                dfs(virtualRobot, grid, booked);
             }
         }
     }
@@ -155,17 +155,17 @@ int main(int argc, char **argv) {
         initialDirection = stringToDirection(dir);
         validateInput();
     } else {
-        printf("Too few or too many arguments, default values are used.\n");
+        printf("Incorrect number of arguments. It should be 4! Default values are used.\n");
     }
 
     initGrid(&robot, grid);
     drawBackground(grid, initialX, initialY);
 
     int booked[SIZE][SIZE] = {};
-    dfs(robot, grid, booked);
+    dfs(robot, grid, booked);  // Sends out many virtual robots to find the markers
     drawForeground(robot, grid);
 
-    for(int nowMarker = 0; nowMarker < COUNTMARKERS; nowMarker++) {
+    for(int nowMarker = 0; nowMarker < COUNTMARKERS; nowMarker++) {  // Let the real robot follow the recorded pathways
         for(int j = 0; pathwayToMarkers[nowMarker][j] != '\0'; j++) {
             char action = pathwayToMarkers[nowMarker][j];
             move(&robot, action);
@@ -173,7 +173,7 @@ int main(int argc, char **argv) {
         }
 
         pickUpMarker(&robot, grid);
-        returnHome(&robot, grid, nowMarker, initialDirection);
+        returnHome(&robot, grid, initialDirection);
         dropMarker(&robot, grid);
         robot.prevSteps[0] = '\0';
     }
