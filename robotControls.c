@@ -91,12 +91,12 @@ void move(Robot* aRobot, char action) {
     }
 }
 
-int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker, Direction initialDirection) {
+void returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], Direction initialDirection) {
     left(aRobot);
     left(aRobot);
     drawForeground(*aRobot, grid);
 
-    for(int prevStep = strlen(aRobot->prevSteps) - 3; prevStep >= 0; prevStep--) {
+    for(int prevStep = strlen(aRobot->prevSteps) - 3; prevStep >= 0; prevStep--) {  // Follow the reversed pathway to return home.
         if (aRobot->prevSteps[prevStep] == 'L') {
             right(aRobot);
         } else if (aRobot->prevSteps[prevStep] == 'R') {
@@ -108,6 +108,5 @@ int returnHome(Robot* aRobot, Cell grid[SIZE][SIZE], int nowMarker, Direction in
     }
     
     faceDir(aRobot, initialDirection);
-    return nowMarker;
 }
 
