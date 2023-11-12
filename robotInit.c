@@ -14,10 +14,15 @@ void readBlocks(Cell grid[SIZE][SIZE], int blocksPosition[COUNTBLOCKS][2]) {
         if (fscanf(fblocks, "%d%d", &blockX, &blockY) != 2) {
             printf("Error reading: Not exactly 2 numbers on the line\n");
             fclose(fblocks);
+        } else {
+            if (blockX >= 0 && blockX <= SIZE - 1 && blockY >= 0 && blockX <= SIZE - 1) {
+                blocksPosition[countBlock][0] = blockX;
+                blocksPosition[countBlock][1] = blockY;                
+            } else {
+                printf("Inappropriate parameters: x or y coordinate not in the grid\n");
+                fclose(fblocks);
+            }
         }
-
-        blocksPosition[countBlock][0] = blockX;
-        blocksPosition[countBlock][1] = blockY;
     }
 
     fclose(fblocks);
@@ -35,6 +40,14 @@ void readMarkers(Cell grid[SIZE][SIZE], int markersPosition[COUNTMARKERS][2]) {
         if (fscanf(fmarkers, "%d%d", &markerX, &markerY) != 2) {
             printf("Error reading: Not exactly 2 numbers on the line\n");
             fclose(fmarkers);
+        } else {
+            if (markerX >= 0 && markerX <= SIZE - 1 && markerY >= 0 && markerY <= SIZE - 1) {
+                markersPosition[countMarker][0] = markerX;
+                markersPosition[countMarker][1] = markerY;                
+            } else {
+                printf("Inappropriate parameters: x or y coordinate not in the grid\n");
+                fclose(fmarkers);
+            }
         }
 
         markersPosition[countMarker][0] = markerX;
