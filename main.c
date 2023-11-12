@@ -121,9 +121,7 @@ int main(int argc, char **argv) {
     dfs(robot, grid, booked);
     drawForeground(robot, grid);
 
-    int nowMarker = 0;
-
-    while (nowMarker < COUNTMARKERS) {
+    for(int nowMarker = 0; nowMarker < COUNTMARKERS; nowMarker++) {
         for(int j = 0; pathwayToMarkers[nowMarker][j] != '\0'; j++) {
             char action = pathwayToMarkers[nowMarker][j];
             move(&robot, action);
@@ -131,11 +129,9 @@ int main(int argc, char **argv) {
         }
 
         pickUpMarker(&robot, grid);
-        int reNowMarker = returnHome(&robot, grid, nowMarker, initialDirection);
-        nowMarker = reNowMarker;
+        returnHome(&robot, grid, nowMarker, initialDirection);
         dropMarker(&robot, grid);
         robot.prevSteps[0] = '\0';
-        nowMarker++;
     }
     
     return 0;
