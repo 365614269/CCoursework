@@ -6,7 +6,7 @@
 
 int markersPosition[COUNTMARKERS][2] = {{9, 2}, {0, 0}, {4, 6}, {7, 3}};
 int blocksPosition[COUNTBLOCKS][2] = {{0, 4}, {5, 3}, {6, 8}, {7, 6}, {3, 3}, {6, 0}, {0, 6}, {5, 5}, {2, 6}, {0, 1}};
-char pathways[COUNTMARKERS][500] = {};
+char pathways[COUNTMARKERS][500] = {};  // Pathway from the home to each marker.
 extern int initialX = 6;
 extern int initialY = 5;
 extern Direction initialDirection = NORTH;
