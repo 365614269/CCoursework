@@ -1,5 +1,5 @@
 #include "graphics.h"
-#include "controls.h"
+#include "robotControls.h"
 #include <string.h>
 #include <stdio.h>
 // Adjust the speed of robot at the end of robotGraphics.c!
@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
 
     int booked[SIZE][SIZE] = {};
     dfs(robot, grid, booked);
-    render(robot, grid);
+    drawForeground(robot, grid);
 
     int nowMarker = 0;
 
@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
         for(int j = 0; pathways[nowMarker][j] != '\0'; j++) {
             char action = pathways[nowMarker][j];
             move(&robot, action);
-            render(robot, grid);
+            drawForeground(robot, grid);
         }
 
         pickUpMarker(&robot, grid);

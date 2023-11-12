@@ -74,7 +74,7 @@ void drawRobot(Robot aRobot) {
     setColour(black);
 }
 
-void render(Robot aRobot, Cell grid[SIZE][SIZE]) {
+void drawForeground(Robot aRobot, Cell grid[SIZE][SIZE]) {
     foreground();
     clear();
 
