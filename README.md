@@ -14,7 +14,7 @@ The markers and blocks position are read from markersPosition.txt and blocksPosi
 
 To compile the code, use the command
 
-- `gcc -o [fileName] graphics.c robotGraphics.c robotInit.c robotMain.c robotControls.c`
+- `gcc -o [fileName] graphics.c robot*.c`
 
 Assign a value to variable fileName, and you will create an executable file called fileName.
 
