@@ -13,14 +13,14 @@ All the 6 stages required in the CCoursework.pdf are completed.
 The markers and blocks position are read from markersPosition.txt and blocksPosition.txt, respectively.
 
 To compile the code, use the command
-
-- `gcc -o [fileName] graphics.c robot*.c`
+- `fileName="MY_FILE_NAME"`
+- `gcc -o $fileName graphics.c robot*.c`
 
 Assign a value to variable fileName, and you will create an executable file called fileName.
 
 To run the executable file, use the command
 
-- `./[fileName] 2 3 south | java -jar drawapp-3.0.jar`
+- `./$fileName 2 3 south | java -jar drawapp-3.0.jar`
 
 You can see the 3 positional arguments passed, that indicates the starting position and direction of the robot.
 
