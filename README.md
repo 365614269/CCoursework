@@ -16,7 +16,7 @@ To compile the code, use the command
 - `fileName="MY_FILE_NAME"`
 - `gcc -o $fileName graphics.c robot*.c`
 
-Assign a value to variable fileName, and you will create an executable file called fileName.
+Assign a value to variable fileName, and you will create an executable file called MY_FILE_NAME.
 
 To run the executable file, use the command
 
