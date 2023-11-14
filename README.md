@@ -12,6 +12,8 @@ All the 6 stages required in the CCoursework.pdf are completed.
 # How to start
 The markers and blocks position are read from markersPosition.txt and blocksPosition.txt, respectively.
 
+Play around with the command-line and file input, full input validation is implemented.
+
 To compile the code, use the command
 - `fileName="MY_FILE_NAME"`
 - `gcc -o $fileName graphics.c robot*.c`
