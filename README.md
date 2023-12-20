@@ -1,6 +1,8 @@
 # CCoursework
 The UCL first year Computer Science Principles of Programming C Coursework.
 
+This piece of code was marked 72 out of 100, grade A.
+
 The aim of the project is to let a robot collect the markers positioned on the graphical grid one after another, and carry them back home.
 
 All the 6 stages required in the CCoursework.pdf are completed.
